@@ -1,0 +1,41 @@
+---
+# tasks file for ansible-role-memcached
+
+- name: Memcached install
+  yum:
+    name: memcached
+    state: present
+
+- name: Start and enable memcached
+  systemd:
+    name: memcached
+    enabled: true
+    state: started
+
+- name: Deploy configuration
+  template:
+    src: memcached.j2
+    dest: /etc/sysconfig/memcached
+    owner: root
+  notify: restart memcached
+
+- name: "Check if firewalld is installed"
+  package_facts:
+    manager: "auto"
+  when: ansible_memcached_open_port && ansible_memcached_listen_ip != "127.0.0.1"
+
+- name: Allow memcached TCP in firewalld
+  firewalld:
+    port: "{{ ansible_memcached_port }}/tcp"
+    permanent: true
+    state: enabled
+  notify: reload firewalld
+  when: ansible_memcached_open_port && ansible_memcached_listen_ip != "127.0.0.1" && 'firewalld' in ansible_facts.packages
+
+- name: Allow memcached UDP in firewalld
+  firewalld:
+    port: "{{ ansible_memcached_port }}/udp"
+    permanent: true
+    state: enabled
+  notify: reload firewalld
+  when: ansible_memcached_open_port && ansible_memcached_listen_ip != "127.0.0.1" && 'firewalld' in ansible_facts.packages

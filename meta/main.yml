@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: Sergey Brovko
+  description: Installs memcached daemon
+  issue_tracker_url: https://github.com/cyber01/ansible-role-memcached
+  license: license (BSD, MIT)
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Fedora
+      versions:
+        - 27
+
+  galaxy_tags:
+    - memcached
+    - firewalld
+    - cache
+dependencies: []
+allow_duplicates: true

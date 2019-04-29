@@ -1,0 +1,5 @@
+- name: reload firewalld
+  command: firewall-cmd --complete-reload
+
+- name: restart memcached
+  systemd: name=memcached enabled=yes state=restarted

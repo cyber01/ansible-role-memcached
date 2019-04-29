@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    ansible_memcached_port: "11211"
+    ansible_memcached_user: "memcached"
+    ansible_memcached_max_conn: "1024"
+    ansible_memcached_cache_size: "64"
+    ansible_memcached_listen_ip: "0.0.0.0"
+    ansible_memcached_options: "-l {{ ansible_memcached_listen_ip }}"
+    ansible_memcached_open_port: true
+
+  roles:
+    - role: cyber01.memcached

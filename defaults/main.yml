@@ -1,0 +1,9 @@
+---
+# defaults file for ansible-role-memcached
+ansible_memcached_port: "11211"
+ansible_memcached_user: "memcached"
+ansible_memcached_max_conn: "1024"
+ansible_memcached_cache_size: "64" #in MB
+ansible_memcached_listen_ip: "127.0.0.1"
+ansible_memcached_options: "-l {{ ansible_memcached_listen_ip }}"
+ansible_memcached_open_port: false
