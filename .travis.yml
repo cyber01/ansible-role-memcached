@@ -9,7 +9,6 @@ env:
     - ROLE_NAME: memcached
   matrix:
     - MOLECULE_DISTRO: centos7
-    - MOLECULE_DISTRO: centos6
       MOLECULE_DOCKER_COMMAND: /usr/lib/systemd/systemd
 
 
