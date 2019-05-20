@@ -1,18 +1,15 @@
 import pytest
 import os
+import yaml
 import testinfra.utils.ansible_runner
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
-
-#@pytest.mark.parametrize("dirs", [
-#    "/var/lib/jenkins"
-#])
-#def test_directories(host, dirs):
-#    d = host.file(dirs)
-#    assert d.is_directory
-#    assert d.exists
+@pytest.fixture()
+def AnsibleDefaults():
+    with open("../../defaults/main.yml", 'r') as stream:
+        return yaml.load(stream)
 
 
 @pytest.mark.parametrize("files", [
@@ -35,7 +32,7 @@ def test_service(host):
     assert s.is_running
 
 
-def test_socket(host):
-
-    s = host.socket("tcp://0.0.0.0:11211")
+def test_socket(host, AnsibleDefaults):
+    listen = AnsibleDefaults['ansible_memcached_listen_ip']
+    s = host.socket("tcp://" + listen + ":11211")
     assert s.is_listening
