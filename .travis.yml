@@ -7,18 +7,14 @@ services: docker
 env:
   global:
     - ROLE_NAME: memcached
-  matrix:
-    - MOLECULE_DISTRO: centos7
-      MOLECULE_DOCKER_COMMAND: /usr/lib/systemd/systemd
-
 
 install:
-  - pip install ansible
-  - pip install ansible-lint
-  - pip install docker
-  - pip install molecule
-  - pip install netaddr
-  - pip install testinfra
+  - pip install --upgrade ansible
+  - pip install --upgrade ansible-lint
+  - pip install --upgrade docker
+  - pip install --upgrade molecule
+  - pip install --upgrade netaddr
+  - pip install --upgrade testinfra
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
@@ -31,7 +27,7 @@ before_script:
 script:
   - molecule --version
   - ansible --version
-  - molecule test
+  - molecule test --all
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
